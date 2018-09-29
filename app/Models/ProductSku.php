@@ -10,6 +10,6 @@ class ProductSku extends Model
 
     public function product()
     {
-        return $this->belongsTo(ProductSku::class);
+        return $this->belongsTo(Product::class);
     }
 }

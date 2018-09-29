@@ -27,10 +27,10 @@ class AddCartRequest extends FormRequest
                         $fail('该商品不存在');
                         return;
                     }
-//                    if (!$sku->product->on_sale) {
-//                        $fail('该商品未上架');
-//                        return;
-//                    }
+                    if (!$sku->product->on_sale) {
+                        $fail('该商品未上架');
+                        return;
+                    }
                     if ($sku->stock === 0) {
                         $fail('该商品已售完');
                         return;
