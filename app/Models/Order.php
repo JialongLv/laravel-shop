@@ -8,7 +8,7 @@ class Order extends Model
 {
     const REFUND_STATUS_PENDING = 'pending';
     const REFUND_STATUS_APPLIED = 'applied';
-    const REFUND__STATUS_PROCESSING = 'processing';
+    const REFUND_STATUS_PROCESSING = 'processing';
     const REFUND_STATUS_SUCCESS = 'success';
     const REFUND_STATUS_FAILED = 'failed';
 
@@ -17,37 +17,46 @@ class Order extends Model
     const SHIP_STATUS_RECEIVED = 'received';
 
     public static $refundStatusMap = [
-      self::REFUND_STATUS_PENDING => '未退款',
-      self::REFUND_STATUS_APPLIED => '已申请退款',
-      self::REFUND__STATUS_PROCESSING => '退款中',
-      self::REFUND_STATUS_SUCCESS => '退款成功',
-      self::REFUND_STATUS_FAILED => '退款失败',
+        self::REFUND_STATUS_PENDING    => '未退款',
+        self::REFUND_STATUS_APPLIED    => '已申请退款',
+        self::REFUND_STATUS_PROCESSING => '退款中',
+        self::REFUND_STATUS_SUCCESS    => '退款成功',
+        self::REFUND_STATUS_FAILED     => '退款失败',
     ];
 
     public static $shipStatusMap = [
-      self::SHIP_STATUS_PENDING => '未发货',
-      self::SHIP_STATUS_DELIVERED => '已发货',
-      self::SHIP_STATUS_RECEIVED => '已收货',
+        self::SHIP_STATUS_PENDING   => '未发货',
+        self::SHIP_STATUS_DELIVERED => '已发货',
+        self::SHIP_STATUS_RECEIVED  => '已收货',
     ];
 
     protected $fillable = [
-      'no',
-      'address',
-      'total_amount',
-      'remark',
-      'paid_at',
-      'payment_method',
-      'payment_no',
-      'refund_no',
-      'closed',
-      'reviewed',
-      'ship_status',
-      'ship_data',
-       'extra' ,
+        'no',
+        'address',
+        'total_amount',
+        'remark',
+        'paid_at',
+        'payment_method',
+        'payment_no',
+        'refund_status',
+        'refund_no',
+        'closed',
+        'reviewed',
+        'ship_status',
+        'ship_data',
+        'extra',
+    ];
+
+    protected $casts = [
+        'closed'    => 'boolean',
+        'reviewed'  => 'boolean',
+        'address'   => 'json',
+        'ship_data' => 'json',
+        'extra'     => 'json',
     ];
 
     protected $dates = [
-      'paid_at'
+        'paid_at',
     ];
 
     protected static function boot()
@@ -77,7 +86,7 @@ class Order extends Model
 
     public static function findAvailableNo()
     {
-        $prefix = data('YmdHis');
+        $prefix = date('YmdHis');
         for ($i = 0; $i < 10;  $i++){
             $no = $prefix.str_pad(random_int(0,999999), 6, '0' , STR_PAD_LEFT);
 
