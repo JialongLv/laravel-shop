@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c57fe6a8494077e23cd569e2ac32d8ad",
+    "content-hash": "941babcb29cc329420fba131579ba4e9",
     "packages": [
         {
             "name": "caouecs/laravel-lang",
@@ -3322,16 +3322,16 @@
         },
         {
             "name": "yansongda/pay",
-            "version": "v2.4.4",
+            "version": "v2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yansongda/pay.git",
-                "reference": "8b8adc179db1fd37b79a34814735a628955aa5de"
+                "reference": "00553d68f34f161ee902547462e9bf363e61c0b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yansongda/pay/zipball/8b8adc179db1fd37b79a34814735a628955aa5de",
-                "reference": "8b8adc179db1fd37b79a34814735a628955aa5de",
+                "url": "https://api.github.com/repos/yansongda/pay/zipball/00553d68f34f161ee902547462e9bf363e61c0b9",
+                "reference": "00553d68f34f161ee902547462e9bf363e61c0b9",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -3346,7 +3346,7 @@
                 "monolog/monolog": "^1.23",
                 "php": ">=7.0",
                 "symfony/http-foundation": "^3.0|^4.0",
-                "yansongda/supports": "^1.7"
+                "yansongda/supports": "^1.8"
             },
             "require-dev": {
                 "mockery/mockery": "1.0.x-dev",
@@ -3374,7 +3374,7 @@
                 "pay",
                 "wechat"
             ],
-            "time": "2018-09-02T08:30:41+00:00"
+            "time": "2018-09-19T16:03:29+00:00"
         },
         {
             "name": "yansongda/supports",
