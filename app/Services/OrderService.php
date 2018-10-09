@@ -48,10 +48,9 @@ class OrderService
                if ($sku->decreaseStock($data['amount']) <= 0){
                    throw new InvalidRequestException('该商品库存不足');
                }
+
            }
-
-           $order->update(['total' => $totalAmount]);
-
+            $order->update(['total_amount' => $totalAmount]);
            $skuIds = collect($items)->pluck('sku_id')->all();
            app(CartService::class)->remove($skuIds);
            return $order;
