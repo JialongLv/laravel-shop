@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Models\Order;
 use App\Http\Controllers\Controller;
+use Encore\Admin\Admin;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -65,6 +66,13 @@ class OrdersController extends Controller
            });
         });
         return $grid;
+    }
+
+    public function show(Order $order,Content $content)
+    {
+        return $content->header('查看订单')
+            ->body(view('admin.orders.show', ['order' => $order]));
+
     }
 
 }

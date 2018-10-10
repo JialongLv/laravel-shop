@@ -17,13 +17,14 @@ class OrderService
         $order = \DB::transaction(function () use ($user, $address, $remark, $items){
            $address->update(['last_used_at' => Carbon::now()]);
 
+           \Log::info($address->zip);
            $order = new Order([
-              'address' => new Order([
+              'address' => [
                   'address' => $address->full_address,
                   'zip' => $address->zip,
                   'contact_name' => $address->contact_name,
                   'contact_phone' => $address->contact_phone,
-              ]),
+              ],
                'remark' => $remark,
                'total_amount' => 0,
            ]);
