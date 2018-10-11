@@ -105,7 +105,7 @@ class OrdersController extends Controller
         if (!$order->paid_at){
             throw new InvalidRequestException('该订单未支付，不可退款');
         }
-        
+
         if ($order->refund_status !== Order::REFUND_STATUS_PENDING){
             throw new InvalidRequestException('该订单已经申请过退款，请勿重复申请');
         }
