@@ -28,11 +28,10 @@ class PaymentController extends Controller
     public function alipayReturn()
     {
         try{
-            app('alipay')->verify();
+            $data = app('alipay')->verify();
         } catch (\Exception $e){
             return view('pages.error', ['msg' => '数据不正确']);
         }
-
         return view('pages.success', ['msg' => '付款成功']);
     }
 
