@@ -1,16 +1,16 @@
 <?php
-
 use Faker\Generator as Faker;
+use Faker\Factory as FakerFactory;
 
 $factory->define(App\Models\UserAddress::class, function (Faker $faker) {
     $addresses = [
-        ["北京市","市辖区","东城市"],
+        ["北京市", "市辖区", "东城区"],
         ["河北省", "石家庄市", "长安区"],
         ["江苏省", "南京市", "浦口区"],
         ["江苏省", "苏州市", "相城区"],
         ["广东省", "深圳市", "福田区"],
     ];
-    $address = $faker->randomElement($addresses);
+    $address   = $faker->randomElement($addresses);
     return [
         'province'      => $address[0],
         'city'          => $address[1],
