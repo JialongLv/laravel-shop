@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Uuid;
 
@@ -113,4 +115,8 @@ class Order extends Model
 
         return $no;
     }
+
+
+
+
 }
