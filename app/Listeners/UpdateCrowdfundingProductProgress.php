@@ -19,13 +19,11 @@ class UpdateCrowdfundingProductProgress implements ShouldQueue
     public function handle(OrderPaid $event)
     {
         $order = $event->getOrder();
-
         if ($order->type !== Order::TYPE_CROWDFUNDING) {
             return;
         }
 
         $crowdfunding = $order->items[0]->product->crowdfunding;
-
         $data = Order::query()
             ->where('type', Order::TYPE_CROWDFUNDING)
             ->whereNotNull('paid_at')
@@ -40,7 +38,7 @@ class UpdateCrowdfundingProductProgress implements ShouldQueue
             ]);
 
         $crowdfunding->update([
-           'total_amount' => $data->total_amont,
+           'total_amount' => $data->total_amount,
            'user_count' => $data->user_count,
         ]);
     }

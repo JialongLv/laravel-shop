@@ -232,4 +232,6 @@ return [
 
     'order_ttl' => 1800,
     'faker_locale' => 'zh_TW',
+
+    'ngrok_url' => env('NGROK_URL'),
 ];
