@@ -89,7 +89,8 @@ class OrderService
            $address->update(['last_used_at' => Carbon::now()]);
 
            $order = new Order([
-              'address' => [$address->full_address,
+              'address' => [
+              'address' =>$address->full_address,
               'zip' => $address->zip,
               'contact_name' => $address->contact_name,
               'contact_phone' => $address->contact_phone,

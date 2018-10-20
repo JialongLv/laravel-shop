@@ -24,7 +24,7 @@ class OrdersController extends Controller
     {
         $user  = $request->user();
         $address = UserAddress::find($request->input('address_id'));
-
+        $coupon = null;
         if ($code = $request->input('coupon_code')){
             $coupon = CouponCode::where('code',$code)->first();
             if (!$coupon){

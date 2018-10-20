@@ -79,7 +79,6 @@
                                 @else
                                     <button class="btn btn-success btn-favor">❤ 收藏</button>
                                 @endif
-                                <button class="btn btn-primary btn-add-to-cart">加入购物车</button>
                                     <!-- 众筹商品下单按钮开始 -->
                                     @if($product->type === \App\Models\Product::TYPE_CROWDFUNDING)
                                         @if(Auth::check())
