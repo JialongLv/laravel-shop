@@ -33,6 +33,7 @@ class OrderService
               ],
                'remark' => $remark,
                'total_amount' => 0,
+               'type' => Order::TYPE_NORMAL,
            ]);
 
            $order->user()->associate($user);
@@ -103,6 +104,7 @@ class OrderService
            $item = $order->items()->make([
               'amount' => $amount,
               'price' => $sku->price,
+               'type' => Order::TYPE_CROWDFUNDING,
            ]);
 
            $item->product()->associate($sku->product_id);
