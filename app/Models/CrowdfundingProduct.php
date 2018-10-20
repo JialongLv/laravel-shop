@@ -10,7 +10,7 @@ class CrowdfundingProduct extends Model
     const STATUS_SUCCESS = 'success';
     const STATUS_FAIL = 'fail';
 
-    public static $statuMap = [
+    public static $statusMap = [
       self::STATUS_FUNDING => '众筹中',
       self::STATUS_SUCCESS => '众筹成功',
       self::STATUS_FAIL => '众筹失败',
