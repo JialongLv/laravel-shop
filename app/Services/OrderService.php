@@ -11,6 +11,7 @@ use App\Models\ProductSku;
 use App\Models\User;
 use App\Models\UserAddress;
 use Carbon\Carbon;
+use function foo\func;
 
 class OrderService
 {
@@ -76,6 +77,47 @@ class OrderService
         });
 
         dispatch(new CloseOrder($order, config('app.order_ttl')));
+
+        return $order;
+    }
+
+    public function crowdfunding(User $user, UserAddress $address, ProductSku $sku, $amount)
+    {
+        $order = \DB::transaction(function () use ($amount, $sku, $user, $address){
+           $address->update(['last_used_at' => Carbon::now()]);
+
+           $order = new Order([
+              'address' => [$address->full_address,
+              'zip' => $address->zip,
+              'contact_name' => $address->contact_name,
+              'contact_phone' => $address->contact_phone,
+                  ],
+               'remark'       => '',
+               'total_amount' => $sku->price * $amount,
+           ]);
+
+           $order->user()->associate($user);
+
+           $order->save();
+
+           $item = $order->items()->make([
+              'amount' => $amount,
+              'price' => $sku->price,
+           ]);
+
+           $item->product()->associate($sku->product_id);
+           $item->productSku()->associate($sku);
+           $item->save();
+
+           if ($sku->decreaseStock($amount) <= 0){
+               throw new InvalidRequestException('该商品库存不足');
+           }
+
+           return $order;
+        });
+
+        $crowdfundingTtl  = $sku->product->crowdfunding->end_at->getTimestamp() - time();
+        dispatch(new CloseOrder($order, min(config('app.order_ttl'),$crowdfundingTtl)));
 
         return $order;
     }
