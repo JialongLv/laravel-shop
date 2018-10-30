@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\OrderItem;
+use App\Services\ProductService;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Exceptions\InvalidRequestException;
@@ -63,10 +64,7 @@ class ProductsController extends Controller
         // 通过 collect 函数将返回结果转为集合，并通过集合的 pluck 方法取到返回的商品 ID 数组
         $productIds = collect($result['hits']['hits'])->pluck('_id')->all();
         // 通过 whereIn 方法从数据库中读取商品数据
-        $products = Product::query()
-            ->whereIn('id', $productIds)
-            ->orderByRaw(sprintf("FIND_IN_SET(id, '%s')", join(',', $productIds)))
-            ->get();
+        $products = Product::query()->byIds($productIds)->get();
 
         // 返回一个 LengthAwarePaginator 对象
         $pager = new LengthAwarePaginator($products, $result['hits']['total'], $perPage, $page, [
@@ -102,7 +100,7 @@ class ProductsController extends Controller
         ]);
     }
 
-    public function show(Product $product, Request $request)
+    public function show(Product $product, Request $request, ProductService $service)
     {
         //判断商品是否已经上架,如果没上架跑出异常
         if (!$product->on_sale){
@@ -123,7 +121,11 @@ class ProductsController extends Controller
             ->limit(10)
             ->get();
 
-        return view('products.show',['product'=> $product, 'favored' => $favored,'reviews' => $reviews]);
+
+        $similarProductIds = $service->getSimilarProductIds($product, 4);
+        $similarProducts   = Product::query()->byIds($similarProductIds)->get();
+
+        return view('products.show',['product'=> $product, 'favored' => $favored,'reviews' => $reviews,'similar' => $similarProducts,]);
     }
 
     public function favor(Product $product, Request $request)
