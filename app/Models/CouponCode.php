@@ -107,7 +107,7 @@ class CouponCode extends Model
         return number_format($orderAmount * (100 - $this->value) / 100,2,'.','');
     }
 
-    public function changUsed($increase = true)
+    public function changeUsed($increase = true)
     {
         if ($increase){
             return $this->newQuery()->where('id', $this->id)->where('used','<', $this->total)->increment('used');

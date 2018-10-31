@@ -68,7 +68,7 @@ class OrderService
 
                $order->couponCode()->associate($coupon);
 
-               if ($coupon->changUsed() <= 0){
+               if ($coupon->changeUsed() <= 0){
                    throw new CouponCodeUnavailableException('该优惠券已被兑完');
                }
            }
