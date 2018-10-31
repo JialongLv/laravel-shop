@@ -6,7 +6,7 @@ use Faker\Generator as Faker;
 
 $factory->define(OrderItem::class, function (Faker $faker) {
 
-    $product = Product::query()->where('on_sale', true)->isRandomOrder()->first();
+    $product = Product::query()->where('on_sale', true)->inRandomOrder()->first();
 
     $sku = $product->skus()->inRandomOrder()->first();
     return [

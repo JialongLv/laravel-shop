@@ -6,8 +6,8 @@ use App\Models\User;
 use Faker\Generator as Faker;
 
 $factory->define(Order::class, function (Faker $faker) {
-    $user = User::query()->isRandomOrder()->first();
-    $address = $user->addresses()->isRandomOrder()->first();
+    $user = User::query()->inRandomOrder()->first();
+    $address = $user->addresses()->inRandomOrder()->first();
 
     $refund = random_int(0,10) < 1;
 
