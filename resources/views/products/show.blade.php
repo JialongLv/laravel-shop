@@ -194,6 +194,7 @@
     </div>
 @endsection
 @section('scriptsAfterJs')
+    <!-- 如果是秒杀商品并且尚未开始秒杀，则引入 momentjs 类库 -->
     @if($product->type == \App\Models\Product::TYPE_SECKILL && $product->seckill->is_before_start)
         <script src="https://cdn.bootcss.com/moment.js/2.22.1/moment.min.js"></script>
     @endif
@@ -204,27 +205,23 @@
                 $('.product-info .price span').text($(this).data('price'));
                 $('.product-info .stock').text('库存：' + $(this).data('stock') + '件');
             });
-
-            // 监听收藏按钮的点击事件
             $('.btn-favor').click(function () {
-                // 发起一个 post ajax 请求，请求 url 通过后端的 route() 函数生成。
                 axios.post('{{ route('products.favor', ['product' => $product->id]) }}')
-                    .then(function () { // 请求成功会执行这个回调
-                        swal('操作成功', '', 'success');
-                    }, function(error) { // 请求失败会执行这个回调
-                        // 如果返回码是 401 代表没登录
+                    .then(function () {
+                        swal('操作成功', '', 'success')
+                            .then(function () {  // 这里加了一个 then() 方法
+                                location.reload();
+                            });
+                    }, function(error) {
                         if (error.response && error.response.status === 401) {
                             swal('请先登录', '', 'error');
                         } else if (error.response && error.response.data.msg) {
-                            // 其他有 msg 字段的情况，将 msg 提示给用户
                             swal(error.response.data.msg, '', 'error');
-                        }  else {
-                            // 其他情况应该是系统挂了
+                        } else {
                             swal('系统错误', '', 'error');
                         }
                     });
             });
-
             $('.btn-disfavor').click(function () {
                 axios.delete('{{ route('products.disfavor', ['product' => $product->id]) }}')
                     .then(function () {
@@ -234,10 +231,8 @@
                             });
                     });
             });
-
             // 加入购物车按钮点击事件
             $('.btn-add-to-cart').click(function () {
-
                 // 请求加入购物车接口
                 axios.post('{{ route('cart.add') }}', {
                     sku_id: $('label.active input[name=skus]').val(),
@@ -250,12 +245,9 @@
                             });
                     }, function (error) { // 请求失败执行此回调
                         if (error.response.status === 401) {
-
                             // http 状态码为 401 代表用户未登陆
                             swal('请先登录', '', 'error');
-
                         } else if (error.response.status === 422) {
-
                             // http 状态码为 422 代表用户输入校验失败
                             var html = '<div>';
                             _.each(error.response.data.errors, function (errors) {
@@ -266,13 +258,11 @@
                             html += '</div>';
                             swal({content: $(html)[0], icon: 'error'})
                         } else {
-
                             // 其他情况应该是系统挂了
                             swal('系统错误', '', 'error');
                         }
                     })
             });
-
             // 参与众筹 按钮点击事件
             $('.btn-crowdfunding').click(function () {
                 // 判断是否选中 SKU
@@ -345,8 +335,7 @@
                             }
                         });
                 });
-            })
-
+            });
             // 如果是秒杀商品并且尚未开始秒杀
             @if($product->type == \App\Models\Product::TYPE_SECKILL && $product->seckill->is_before_start)
             // 将秒杀开始时间转成一个 moment 对象
@@ -363,7 +352,6 @@
                     clearInterval(hdl);
                     return;
                 }
-
                 // 获取当前时间与秒杀开始时间相差的小时、分钟、秒数
                 var hourDiff = startTime.diff(now, 'hours');
                 var minDiff = startTime.diff(now, 'minutes') % 60;
@@ -372,7 +360,6 @@
                 $('.btn-seckill').text('抢购倒计时 '+hourDiff+':'+minDiff+':'+secDiff);
             }, 500);
             @endif
-
             // 秒杀按钮点击事件
             $('.btn-seckill').click(function () {
                 // 如果秒杀按钮上有 disabled 类，则不做任何操作
@@ -398,6 +385,7 @@
                     content: addressSelector[0],
                     buttons: ['取消', '确定']
                 }).then(function (ret) {
+                    // 如果用户没有点确定按钮，则什么也不做
                     if (!ret) {
                         return;
                     }
@@ -434,7 +422,6 @@
                         });
                 });
             });
-
         });
     </script>
 @endsection

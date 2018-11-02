@@ -15,13 +15,12 @@ class CheckIfEmailVerified
      */
     public function handle($request, Closure $next)
     {
-        if (!$request->user()->email_verified){
-            //如果 AJAX 请求,则通过 JSON 返回
-            if ($request->expectsJson()){
-                return response()->json(['msg' => '请先验证邮箱'], 400);
-            }
-            return redirect(route('email_verify_notice'));
-        }
+//        if (!$request->user()->email_verified) {
+//            if ($request->expectsJson()) {
+//                return response()->json(['msg' => '请先验证邮箱'], 400);
+//            }
+//            return redirect(route('email_verify_notice'));
+//        }
         return $next($request);
     }
 }
