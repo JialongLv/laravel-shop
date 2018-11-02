@@ -158,6 +158,7 @@ class OrderService
                throw new InvalidRequestException('该商品库存不足');
            }
 
+            \Redis::decr('seckill_sku_'.$sku->id);
            return $order;
         });
 
