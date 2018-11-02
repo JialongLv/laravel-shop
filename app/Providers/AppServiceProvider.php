@@ -7,6 +7,7 @@ use Monolog\Logger;
 use  Yansongda\Pay\Pay;
 use Carbon\Carbon;
 use Elasticsearch\ClientBuilder as ESClientBuilder;
+use Illuminate\Support\Str;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +20,11 @@ class AppServiceProvider extends ServiceProvider
     {
         \View::composer(['products.index', 'products.show'], \App\Http\ViewComposers\CategoryTreeComposer::class);
          Carbon::setLocale('zh');
+        if (app()->environment('local')) {
+            \DB::listen(function ($query) {
+                \Log::info(Str::replaceArray('?', $query->bindings, $query->sql));
+            });
+        }
     }
 
     /**
