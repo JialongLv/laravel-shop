@@ -231,6 +231,7 @@ return [
     ],
 
     'order_ttl' => 1800,
+    'seckill_order_ttl' => 600,
     'faker_locale' => 'zh_TW',
 
     'ngrok_url' => env('NGROK_URL'),
