@@ -20,11 +20,11 @@ class AppServiceProvider extends ServiceProvider
     {
         \View::composer(['products.index', 'products.show'], \App\Http\ViewComposers\CategoryTreeComposer::class);
          Carbon::setLocale('zh');
-        if (app()->environment('local')) {
-            \DB::listen(function ($query) {
-                \Log::info(Str::replaceArray('?', $query->bindings, $query->sql));
-            });
-        }
+//        if (app()->environment('local')) {
+//            \DB::listen(function ($query) {
+//                \Log::info(Str::replaceArray('?', $query->bindings, $query->sql));
+//            });
+//        }
     }
 
     /**
